@@ -8,13 +8,13 @@ spring:
         - name: CountFilter
       routes:
         - id: movieRoute
-          uri: lb://movie-service
+          uri: http://localhost:8081/
           predicates:
             - Path=/movies/**
           filters:
             - AddRequestHeader=movie-request-header, testing-request-headers
             - AddResponseHeader=movie-response-header, testing-response-headers
         - id: catalogRoute
-          uri: lb://catalog-service
+          uri: http://localhost:8082/
           predicates:
             - Path=/catalogs/**
