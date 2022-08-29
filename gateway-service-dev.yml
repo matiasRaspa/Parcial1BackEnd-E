@@ -4,12 +4,17 @@ server:
 spring:
   cloud:
     gateway:
+      default-filters:
+        - name: CountFilter
       routes:
-        - id: musicRoute #Identificando la ruta del service de producto
-          uri: http://localhost:8082/ #URL donde se hará el redirect segun el predicate definido
-          predicates: #RReglas de análisis de una request
-            - Path=/musics/**
-        - id: playlistRoute #Identificando la ruta del service de producto
-          uri: http://localhost:8084/ #URL donde se hará el redirect segun el predicate definido
-          predicates: #RReglas de análisis de una request
-            - Path=/playlists/**
+        - id: movieRoute
+          uri: lb://movie-service
+          predicates:
+            - Path=/movies/**
+          filters:
+            - AddRequestHeader=movie-request-header, testing-request-headers
+            - AddResponseHeader=movie-response-header, testing-response-headers
+        - id: catalogRoute
+          uri: lb://catalog-service
+          predicates:
+            - Path=/catalogs/**
