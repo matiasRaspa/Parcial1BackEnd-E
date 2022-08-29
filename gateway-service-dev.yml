@@ -4,16 +4,11 @@ server:
 spring:
   cloud:
     gateway:
-      default-filters:
-        - name: CountFilter
       routes:
         - id: movieRoute
           uri: lb://movie-service
           predicates:
             - Path=/movies/**
-          filters:
-            - AddRequestHeader=movie-request-header, testing-request-headers
-            - AddResponseHeader=movie-response-header, testing-response-headers
         - id: catalogRoute
           uri: lb://catalog-service
           predicates:
